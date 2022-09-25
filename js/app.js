@@ -5,6 +5,7 @@ let addBtn = document.querySelector('#addBtn')
 let todo = document.querySelector('#todo')
 
 let todoItems = {}
+let oldItemId;
 
 function addCourse() {
     if (!courseItem.value) {
@@ -15,7 +16,10 @@ function addCourse() {
         course: courseItem.value
     })
         .then((res) => {
-            showItems(res.data.data[courseItem.value].items)
+            todoItems = res.data.data
+            showItems()
+            // showItems(res.data.data[courseItem.value].items)
+            // console.log(todoItems);
         })
         .catch((err) => {
             console.log(err);
@@ -28,8 +32,9 @@ function renderItems(items) {
     }
     axios.get('http://localhost:8080/todoItems')
         .then((res) => {
-            console.log(res.data.data);
-            showItems(res.data.data[courseItem.value].items)
+            // console.log(res.data.data);
+            todoItems = res.data.data
+            showItems()
         })
         .catch((err) => {
             console.log(err);
@@ -46,6 +51,7 @@ function addItem(index) {
         text: item.value,
         id: Date.now()
     }
+    // console.log(index);
     index > -1 ? update(index) : postItem(courseItem.value, todoItem)
     item.value = ''
 }
@@ -56,17 +62,16 @@ function postItem(course, todoItem) {
         course
     })
         .then((res) => {
-            showItems(res.data.data[courseItem.value].items)
+            todoItems = res.data.data
+            showItems()
         })
 }
 
 
-function showItems(items) {
-    let data = items.filter((item) => item.id !== 1664045378368)
-    console.log(data);
+function showItems() {
     result.innerHTML = ''
 
-    items.map((item, index) => {
+    todoItems[courseItem.value].items.map((item, index) => {
         let edit = `<input data-course="${courseItem.value}" class="btn button edit" type="button" onclick="editItem(${index})" value="Edit">`
         let dlt = `<input data-course="${courseItem.value}" class="btn button delete" type="button" onclick="dltItem(${index})" value="Delete">`
         result.innerHTML += `<li data-key="${item.id}" > <div class="list" > ${item.text} </div> ${edit} ${dlt}</li>`
@@ -89,17 +94,37 @@ function formSetting(index) {
     }
 }
 
-function update(index) {
-    list[index] = item.value
+function update() {
+    let api = `http://localhost:8080/todoItem/${courseItem.value}/${oldItemId}`
+    axios.put(api, {
+        text: item.value
+    })
+        .then((res) => {
+            todoItems = res.data.data
+            showItems()
+        })
+        .catch((err) => {
+            console.log(err.response.data.msg);
+        })
     formSetting()
 }
 
 function editItem(index) {
-    item.value = list[index]
+    item.value = todoItems[courseItem.value].items[index].text
+    oldItemId = todoItems[courseItem.value].items[index].id
+    // console.log(oldItemId);
     formSetting(index)
 }
 
 function dltItem(index) {
-    list.splice(index, 1)
-    showItems()
+    let api = `http://localhost:8080/todoItem/${courseItem.value}/${todoItems[courseItem.value].items[index].id}`
+    console.log(api);
+    axios.delete(api)
+        .then((res) => {
+            todoItems = res.data.data
+            showItems()
+        })
+        .catch((err) => {
+            console.log(err.message);
+        })
 }
