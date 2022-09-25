@@ -8,22 +8,26 @@
     <title>Document</title>
     <link rel="stylesheet" href="./style/style.css">
     <script src="./js/axios.min.js"></script>
+
 </head>
 
 <body>
     <div class="container">
         <div class="header">
-            <h2>Todo List</h2>
+            <h2>Sysborg Clone</h2>
         </div>
         <div class="body">
             <form id="CourseTodo" onsubmit="addCourse(); return false">
                 <input class="item" type="text" id="courseItem">
                 <button id="addCourseBtn" class="btn add itemButton" type="submit">Course</button>
             </form><br><br>
-            <form id="todo" onsubmit="addItem(); return false">
+            <form id="todo" encType="multipart/form-data" onsubmit="addItem(); return false">
                 <input class="item" type="text" id="item">
+                <input class="file-input" type="file" id="uploadedFile" />
+                <!-- <label class="btn file-label" for="uploadedFile">Select file</label> -->
                 <button id="addBtn" class="btn add itemButton" type="submit">Add</button>
             </form>
+            <img id="img" src="" alt="">
             <ul id="result">
                 <!-- <li>1</li> -->
             </ul>

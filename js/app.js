@@ -3,16 +3,18 @@ let courseItem = document.querySelector('#courseItem')
 let result = document.querySelector('#result')
 let addBtn = document.querySelector('#addBtn')
 let todo = document.querySelector('#todo')
+let imagefile = document.querySelector('#uploadedFile');
 
 let todoItems = {}
 let oldItemId;
+let api = 'https://faithful-erin-wig.cyclic.app/'
 
 function addCourse() {
     if (!courseItem.value) {
         return
     }
     localStorage.setItem('course', courseItem.value)
-    axios.post('http://localhost:8080/courses', {
+    axios.post(`${api}courses`, {
         course: courseItem.value
     })
         .then((res) => {
@@ -30,7 +32,7 @@ function renderItems(items) {
     if (localStorage.getItem('course')) {
         courseItem.value = localStorage.getItem('course')
     }
-    axios.get('http://localhost:8080/todoItems')
+    axios.get(`${api}todoItems`)
         .then((res) => {
             // console.log(res.data.data);
             todoItems = res.data.data
@@ -51,13 +53,41 @@ function addItem(index) {
         text: item.value,
         id: Date.now()
     }
+    // if (imagefile.files.length === 0) {
+    //     fileUpload()
+    // }
     // console.log(index);
     index > -1 ? update(index) : postItem(courseItem.value, todoItem)
     item.value = ''
 }
 
+// function downloadFile() {
+//     axios.get('http://localhost:8080/uploads')
+//         .then((res) => {
+//             console.log(res.data);
+//         })
+// }
+// downloadFile()
+
+// function fileUpload() {
+//     let formData = new FormData();
+//     formData.append("uploadedFile", imagefile.files[0]);
+//     axios.post('http://localhost:8080/upload', formData, {
+//         headers: {
+//             'Content-Type': 'multipart/form-data'
+//         }
+//     })
+//         .then((res) => {
+//             console.log(res.data.data);
+//             // document.querySelector('#img').src = res.data.data
+//         })
+//         .catch((err) => {
+//             console.log(err);
+//         })
+// }
+
 function postItem(course, todoItem) {
-    axios.post('http://localhost:8080/todoItem', {
+    axios.post(`${api}todoItem`, {
         todoItem,
         course
     })
@@ -95,8 +125,7 @@ function formSetting(index) {
 }
 
 function update() {
-    let api = `http://localhost:8080/todoItem/${courseItem.value}/${oldItemId}`
-    axios.put(api, {
+    axios.put(`${api}/todoItem/${courseItem.value}/${oldItemId}`, {
         text: item.value
     })
         .then((res) => {
@@ -117,9 +146,8 @@ function editItem(index) {
 }
 
 function dltItem(index) {
-    let api = `http://localhost:8080/todoItem/${courseItem.value}/${todoItems[courseItem.value].items[index].id}`
-    console.log(api);
-    axios.delete(api)
+    // console.log(api);
+    axios.delete(`${api}/todoItem/${courseItem.value}/${todoItems[courseItem.value].items[index].id}`)
         .then((res) => {
             todoItems = res.data.data
             showItems()
