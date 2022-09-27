@@ -4,6 +4,7 @@ let courseItem = document.querySelector('#courseItem')
 let item = document.querySelector('#item')
 let result = document.querySelector('#result')
 let todo = document.querySelector('#todo')
+// let deleteAll = document.querySelector('#deleteAll')
 
 let todoItems = {}
 let oldItemId;
@@ -44,6 +45,7 @@ if (localStorage.getItem('course')) {
     courseItem.focus()
     courseItem.value = localStorage.getItem('course')
     renderItems()
+    // courseItem.blur()   
 }
 
 function addItem(index) {
@@ -174,5 +176,13 @@ function dltItem(index) {
         })
         .catch((err) => {
             console.log(err.message);
+        })
+}
+
+function dltAll() {
+    axios.delete(`${api}/${courseItem.value}/`)
+        .then((res) => {
+            console.log(res.data);
+            renderItems()
         })
 }
