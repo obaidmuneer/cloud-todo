@@ -1,9 +1,9 @@
-let item = document.querySelector('#item')
-let courseItem = document.querySelector('#courseItem')
-let result = document.querySelector('#result')
 let addBtn = document.querySelector('#addBtn')
+let courseItem = document.querySelector('#courseItem')
+// let imagefile = document.querySelector('#uploadedFile');
+let item = document.querySelector('#item')
+let result = document.querySelector('#result')
 let todo = document.querySelector('#todo')
-let imagefile = document.querySelector('#uploadedFile');
 
 let todoItems = {}
 let oldItemId;
@@ -29,9 +29,6 @@ function addCourse() {
 
 }
 function renderItems(items) {
-    if (localStorage.getItem('course')) {
-        courseItem.value = localStorage.getItem('course')
-    }
     axios.get(`${api}todoItems`)
         .then((res) => {
             // console.log(res.data.data);
@@ -43,7 +40,11 @@ function renderItems(items) {
         })
 
 }
-renderItems()
+if (localStorage.getItem('course')) {
+    courseItem.focus()
+    courseItem.value = localStorage.getItem('course')
+    renderItems()
+}
 
 function addItem(index) {
     if (!item.value) {
@@ -57,7 +58,7 @@ function addItem(index) {
     //     fileUpload()
     // }
     // console.log(index);
-    index > -1 ? update(index) : postItem(courseItem.value, todoItem)
+    index > -1 ? updateItem(index) : postItem(courseItem.value, todoItem)
     item.value = ''
 }
 
@@ -101,22 +102,40 @@ function postItem(course, todoItem) {
 function showItems() {
     result.innerHTML = ''
 
-    todoItems[courseItem.value].items.map((item, index) => {
-        let edit = `<input data-course="${courseItem.value}" class="btn button edit" type="button" onclick="editItem(${index})" value="Edit">`
-        let dlt = `<input data-course="${courseItem.value}" class="btn button delete" type="button" onclick="dltItem(${index})" value="Delete">`
-        result.innerHTML += `<li data-key="${item.id}" > <div class="list" > ${item.text} </div> ${edit} ${dlt}</li>`
+    todoItems[courseItem.value].items.reverse().map((item, index) => {
+        // let edit = `<input data-course="${courseItem.value}" class="btn button edit" type="button" onclick="editItem(${index})" value="Edit">`
+        let edit = `<a href="#" onclick="editItem(${index})" class="text-info" data-mdb-toggle="tooltip" title="Edit todo"><i
+        class="fas fa-pencil-alt me-3"></i></a>`
+        // let dlt = `<i class="fas fa-times text-primary" onclick="dltItem(${index})"></i>`
+        let dlt = `<a href="#" onclick="dltItem(${index})" class="text-danger" data-mdb-toggle="tooltip" title="Delete todo"><i
+        class="fas fa-trash-alt"></i></a>`
+        result.innerHTML += `<li data-key="${item.id}"
+            class="list-group-item d-flex justify-content-between align-items-center border-start-0 border-top-0 border-end-0 border-bottom rounded-0 mb-2">
+            <div class="d-flex align-items-center">
+              ${item.text}
+            </div>
+            <div class="d-flex flex-row justify-content-end mb-1">
+                  ${edit}
+                  ${dlt}
+                </div>
+          </li>`
     })
 }
 
 function formSetting(index) {
     if (index > -1) {
         addBtn.innerHTML = 'Update'
+        // addBtn.attributes = 'btn btn-warning btn-rounded'
+        addBtn.setAttribute('class', 'btn btn-success btn-rounded ms-2')
+        item.focus()
         todo.onsubmit = function () {
             addItem(index);
             return false
         }
     } else {
         addBtn.innerHTML = 'Add'
+        addBtn.setAttribute('class', 'btn btn-primary btn-rounded ms-2')
+        // item.blur()
         todo.onsubmit = function () {
             addItem();
             return false
@@ -124,7 +143,8 @@ function formSetting(index) {
     }
 }
 
-function update() {
+function updateItem() {
+    item.blur()
     axios.put(`${api}/todoItem/${courseItem.value}/${oldItemId}`, {
         text: item.value
     })

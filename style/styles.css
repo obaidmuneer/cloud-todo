@@ -1,0 +1,14 @@
+.form-control{
+    outline: 1px  solid #bbb;
+}
+
+.form-control:focus{
+    outline: 1px  solid #bbb;
+
+}
+
+.form-label{
+    background-color: white;
+    /* padding: 1%; */
+}
+

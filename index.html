@@ -2,38 +2,89 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="./style/style.css">
-    <script src="./js/axios.min.js"></script>
-
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sysborg Clone</title>
+  <!-- Font Awesome -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" />
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet" />
+  <!-- MDB -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/5.0.0/mdb.min.css" rel="stylesheet" />
+  <!-- MDB -->
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/5.0.0/mdb.min.js"></script>
+  <link rel="stylesheet" href="./style/styles.css">
+  <script src="./js/axios.min.js"></script>
 </head>
 
 <body>
-    <div class="container">
-        <div class="header">
-            <h2>Sysborg Clone</h2>
+  <section class="vh-100" style="background-color: #e2d5de;">
+    <div class="container py-5 h-100">
+      <div class="row d-flex justify-content-center align-items-center h-100">
+        <div class="col col-xl-10">
+
+          <div class="card" style="border-radius: 15px;">
+
+            <div class="card-body p-5">
+
+              <!-- <div class="column d-flex justify-content-between align-items-center"> -->
+              <div class="d-flex justify-content-between">
+                <form id="CourseTodo" onsubmit="addCourse(); return false"
+                  class="d-flex justify-content-center align-items-center mb-4">
+                  <div class="form-outline flex-fill">
+                    <input placeholder="Enter Course ID" id="courseItem" type="text" id="form2" class="form-control" />
+                    <label class="form-label" for="form2"> Class ID... </label>
+                  </div>
+                  <button id="addCourseBtn" type="submit" class="btn btn-primary ms-2 btn-rounded">Submit</button>
+                </form>
+                <div>
+                  <button type="button" class="btn btn-danger btn-rounded">Delete All</button>
+                </div>
+              </div>
+
+
+
+              <h6 class="mb-3">Sysborg Clone</h6>
+
+              <form id="todo" encType="multipart/form-data" onsubmit="addItem(); return false"
+                class="d-flex justify-content-center align-items-center mb-4">
+                <div class="form-outline flex-fill">
+                  <input placeholder="Enter Task" id="item" type="text" id="form2" class="form-control" />
+                  <label class="form-label" for="form2"> New task... </label>
+                </div>
+                <button id="addBtn" type="submit" class="btn btn-primary btn-rounded ms-2">Add</button>
+              </form>
+
+              <ul id="result" class="list-group mb-0">
+                <!-- <li
+                  class="list-group-item d-flex justify-content-between align-items-center border-start-0 border-top-0 border-end-0 border-bottom rounded-0 mb-2">
+                  <div class="d-flex align-items-center">
+                    ${Your Value}
+                  </div>
+                  <a href="#!" data-mdb-toggle="tooltip" title="Remove item">
+                    <i class="fas fa-times text-primary"></i>
+                  </a>
+                </li> -->
+
+              </ul>
+
+            </div>
+            <div class="text-center mb-3 ">
+              <a href="https://github.com/obaidmuneer"><i class="fab fa-github fa-10x btn btn-primary btn-rounded "></i></a>
+              <!-- <a href="http://www.google.com"><i class="fab fa-google fa-10x btn btn-primary btn-rounded "></i></a>
+              <a href="http://www.google.com"><i class="fab fa-facebook-f fa-10x btn btn-primary btn-rounded "></i></a>            </div> -->
+      
+          </div>
+
         </div>
-        <div class="body">
-            <form id="CourseTodo" onsubmit="addCourse(); return false">
-                <input class="item" type="text" id="courseItem">
-                <button id="addCourseBtn" class="btn add itemButton" type="submit">Course</button>
-            </form><br><br>
-            <form id="todo" encType="multipart/form-data" onsubmit="addItem(); return false">
-                <input class="item" type="text" id="item">
-                <input class="file-input" type="file" id="uploadedFile" />
-                <!-- <label class="btn file-label" for="uploadedFile">Select file</label> -->
-                <button id="addBtn" class="btn add itemButton" type="submit">Add</button>
-            </form>
-            <img id="img" src="" alt="">
-            <ul id="result">
-                <!-- <li>1</li> -->
-            </ul>
-        </div>
+      </div>
+      
     </div>
-    <script src="./js/app.js"></script>
+    
+  </section>
+
+  <script src="./js/app.js"></script>
 </body>
 
 </html>
