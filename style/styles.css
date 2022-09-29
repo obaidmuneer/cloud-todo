@@ -1,14 +1,25 @@
-.form-control{
-    outline: 1px  solid #bbb;
+.form-control {
+    outline: 1px solid #bbb;
 }
 
-.form-control:focus{
-    outline: 1px  solid #bbb;
+.form-control:focus {
+    outline: 1px solid #bbb;
 
 }
 
-.form-label{
+.form-label {
     background-color: white;
     /* padding: 1%; */
 }
 
+/* input[type='file'] {
+    color: transparent;
+  } */
+
+.image-upload>input {
+    display: none;
+}
+
+.img-card{
+    width: 20%;
+}
