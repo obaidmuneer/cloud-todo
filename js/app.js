@@ -7,8 +7,8 @@ let todo = document.querySelector('#todo')
 
 let todos = {}
 let todoId;
-// let api = 'https://faithful-erin-wig.cyclic.app/'
-let api = 'http://localhost:8080/'
+let api = 'https://faithful-erin-wig.cyclic.app/'
+// let api = 'http://localhost:8080/'
 
 function addCourse() {
     if (!courseItem.value) {
@@ -24,10 +24,6 @@ function renderItems(items) {
     axios.get(`${api}todos/${courseItem.value}`)
         .then((res) => {
             todos = res.data.data
-            // todos = todos.filter((item, index) => {
-            //     return item.course === courseItem.value
-            // })
-            // console.log(todos);
             showItems()
         })
         .catch((err) => {
@@ -36,7 +32,6 @@ function renderItems(items) {
 
 }
 if (localStorage.getItem('course')) {
-    // courseItem.focus()
     courseItem.value = localStorage.getItem('course')
     renderItems()
 }
@@ -56,9 +51,6 @@ function postItem(course, text) {
     })
         .then((res) => {
             renderItems()
-            // console.log(res.data);
-            // todos = res.data
-            // showItems()
         })
 }
 
