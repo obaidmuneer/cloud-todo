@@ -1,3 +1,7 @@
+body{
+    min-height: 100vh;
+    background-color: #e2d5de;
+}
 .form-control {
     outline: 1px solid #bbb;
 }
@@ -11,10 +15,6 @@
     background-color: white;
     /* padding: 1%; */
 }
-
-/* input[type='file'] {
-    color: transparent;
-  } */
 
 .image-upload>input {
     display: none;
