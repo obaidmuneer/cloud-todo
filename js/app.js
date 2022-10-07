@@ -37,7 +37,7 @@ if (localStorage.getItem('course')) {
 }
 
 function addItem(index) {
-    if (!item.value) {
+    if (!courseItem.value || !item.value) {
         return
     }
     index > -1 ? updateItem(index) : postItem(courseItem.value, item.value)
