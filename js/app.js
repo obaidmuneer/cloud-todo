@@ -7,8 +7,33 @@ let todo = document.querySelector('#todo')
 
 let todos = {}
 let todoId;
-let api = 'https://faithful-erin-wig.cyclic.app/'
-// let api = 'http://localhost:8080/'
+let api;
+if (window.location.protocol === 'http:') {
+    api = 'http://localhost:8080/'
+} else {
+    api = 'https://faithful-erin-wig.cyclic.app/'
+}
+// console.log(api);
+
+function fileUpload() {
+    let formData = new FormData();
+    formData.append('course', courseItem.value);
+    formData.append("uploadedFile", imagefile.files[0]);
+    axios.post(`${api}upload`, formData,
+        {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        })
+        .then((res) => {
+            console.log(res.data.data);
+            renderItems()
+            // document.querySelector('#img').src = res.data.data
+        })
+        .catch((err) => {
+            console.log(err);
+        })
+}
 
 function addCourse() {
     if (!courseItem.value) {
@@ -17,8 +42,6 @@ function addCourse() {
     localStorage.setItem('course', courseItem.value)
     renderItems()
     item.focus()
-
-
 }
 function renderItems(items) {
     axios.get(`${api}todos/${courseItem.value}`)
@@ -70,7 +93,7 @@ function showItems() {
         } else {
             itemdiv = `<div class="card img-card">
             <div class="bg-image hover-overlay ripple" data-mdb-ripple-color="light">
-              <img src="${api}${courseItem.value}/${item.filename}" class="img-fluid"/>
+              <img src="${item.file}" class="img-fluid"/>
                 <div class="mask" style="background-color: rgba(251, 251, 251, 0.15);"></div>
             </div>
           </div><br>`
