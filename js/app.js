@@ -15,27 +15,7 @@ if (window.location.protocol === 'http:') {
 }
 // console.log(api);
 
-function fileUpload() {
-    let formData = new FormData();
-    // formData.append('course', courseItem.value);
-    formData.append("uploadedFile", imagefile.files[0]);
-    axios.post(`${api}upload/${courseItem.value}`, formData,
-        {
-            headers: {
-                'Content-Type': 'multipart/form-data'
-            }
-        })
-        .then((res) => {
-            console.log(res.data.data);
-            renderItems()
-            // document.querySelector('#img').src = res.data.data
-        })
-        .catch((err) => {
-            console.log(err);
-        })
-}
-
-function addCourse() {
+let addCourse = () => {
     if (!courseItem.value) {
         return
     }
@@ -43,7 +23,8 @@ function addCourse() {
     renderItems()
     item.focus()
 }
-function renderItems(items) {
+
+let renderItems = (items) => {
     axios.get(`${api}todos/${courseItem.value}`)
         .then((res) => {
             todos = res.data.data
@@ -59,7 +40,7 @@ if (localStorage.getItem('course')) {
     renderItems()
 }
 
-function addItem(index) {
+let addItem = (index) => {
     if (!courseItem.value || !item.value) {
         return
     }
@@ -67,7 +48,7 @@ function addItem(index) {
     item.value = ''
 }
 
-function postItem(course, text) {
+let postItem = (course, text) => {
     axios.post(`${api}todo`, {
         course,
         text
@@ -77,8 +58,25 @@ function postItem(course, text) {
         })
 }
 
+let fileUpload = () => {
+    let formData = new FormData();
+    formData.append("uploadedFile", imagefile.files[0]);
+    axios.post(`${api}upload/${courseItem.value}`, formData,
+        {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        })
+        .then((res) => {
+            console.log(res.data.data);
+            renderItems()
+        })
+        .catch((err) => {
+            console.log(err);
+        })
+}
 
-function showItems() {
+let showItems = () => {
     result.innerHTML = ''
     todos.reverse().map((item, index) => {
         let edit = item.text ? `<a href="#" onclick="editItem(${index})" class="text-info" data-mdb-toggle="tooltip" title="Edit todo"><i
@@ -93,7 +91,7 @@ function showItems() {
         } else {
             itemdiv = `<div class="card img-card">
             <div class="bg-image hover-overlay ripple" data-mdb-ripple-color="light">
-              <img src="${item.file}" class="img-fluid"/>
+              <img src="${item.file.link}" class="img-fluid"/>
                 <div class="mask" style="background-color: rgba(251, 251, 251, 0.15);"></div>
             </div>
           </div><br>`
@@ -110,7 +108,7 @@ function showItems() {
     })
 }
 
-function formSetting(index) {
+let formSetting = (index) => {
     if (index > -1) {
         addBtn.innerHTML = 'Update'
         addBtn.setAttribute('class', 'btn btn-success btn-rounded ms-2')
@@ -128,7 +126,7 @@ function formSetting(index) {
     }
 }
 
-function updateItem() {
+let updateItem = () => {
     axios.put(`${api}todo/${todoId}`, {
         text: item.value
     })
@@ -142,15 +140,20 @@ function updateItem() {
     formSetting()
 }
 
-function editItem(index) {
+let editItem = (index) => {
     item.value = todos[index].text
     todoId = todos[index]._id
     item.focus()
     formSetting(index)
 }
 
-function dltItem(index) {
-    todoId = todos[index]._id
+let dltItem = (index) => {
+    // console.log(todos[index]);
+    if (Boolean(todos[index].text)) {
+        todoId = todos[index]._id
+    } else {
+        todoId = `${todos[index]._id} ${todos[index].file.fileId}`
+    }
     axios.delete(`${api}todo/${todoId}`)
         .then((res) => {
             console.log(res.data);
@@ -161,7 +164,7 @@ function dltItem(index) {
         })
 }
 
-function dltAll() {
+let dltAll = () => {
     axios.delete(`${api}todos/${courseItem.value}`)
         .then((res) => {
             console.log(res.data);
