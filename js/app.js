@@ -17,9 +17,9 @@ if (window.location.protocol === 'http:') {
 
 function fileUpload() {
     let formData = new FormData();
-    formData.append('course', courseItem.value);
+    // formData.append('course', courseItem.value);
     formData.append("uploadedFile", imagefile.files[0]);
-    axios.post(`${api}upload`, formData,
+    axios.post(`${api}upload/${courseItem.value}`, formData,
         {
             headers: {
                 'Content-Type': 'multipart/form-data'
