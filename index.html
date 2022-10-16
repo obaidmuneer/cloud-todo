@@ -54,17 +54,18 @@
               <form id="todo" encType="multipart/form-data" onsubmit="addItem(); return false"
                 class="d-flex justify-content-center align-items-center mb-4">
                 <div class="flex-fill input-group">
-                  <input id="item" type="text" class="form-control" />
+                  <input id="item" type="text" name="item" class="form-control" />
                   <!-- <label class="form-label" for="form2"> New task... </label> -->
                   <div class="image-upload">
                     <label for="uploadedFile">
                       <i class="fas fa-upload fa-2x ms-2"></i>
                     </label>
-                    <input onchange="fileUpload()" id="uploadedFile" type="file" />
+                    <input onchange="upload()" id="uploadedFile" type="file" />
                   </div>
                 </div>
                 <button id="addBtn" type="submit" class="btn btn-primary btn-rounded ms-2">Add</button>
-                <!-- <button id="uploadBtn" type="submit" class="btn btn-primary btn-rounded ms-2">Upload</button> -->
+                <button id="uploadBtn" onclick="fileUpload()" class="btn btn-primary btn-rounded ms-2">Upload</button>
+                <button id="cancleBtn" class="btn btn-warning btn-rounded ms-2" onclick="cancle()" >Cancle</button>
               </form>
 
 

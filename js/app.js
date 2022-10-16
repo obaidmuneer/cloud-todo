@@ -1,14 +1,16 @@
-let addBtn = document.querySelector('#addBtn')
 let courseItem = document.querySelector('#courseItem')
-let imagefile = document.querySelector('#uploadedFile');
-let item = document.querySelector('#item')
-let result = document.querySelector('#result')
 let todo = document.querySelector('#todo')
+let item = document.querySelector('#item')
+let imagefile = document.querySelector('#uploadedFile');
+let addBtn = document.querySelector('#addBtn')
+let cancleBtn = document.querySelector('#cancleBtn')
+let uploadBtn = document.querySelector('#uploadBtn')
+let result = document.querySelector('#result')
 
 let todos = {}
 let todoId;
 let api;
-if (window.location.protocol === 'http:') {
+if (window.location.protocol) {
     api = 'http://localhost:8080/'
 } else {
     api = 'https://faithful-erin-wig.cyclic.app/'
@@ -41,6 +43,7 @@ if (localStorage.getItem('course')) {
 }
 
 let addItem = (index) => {
+    // console.log(todo['item'].value);
     if (!courseItem.value || !item.value) {
         return
     }
@@ -58,6 +61,19 @@ let postItem = (course, text) => {
         })
 }
 
+let cancle = () => {
+    todo.reset()
+    addBtn.style.display = 'inline'
+    uploadBtn.style.display = 'none'
+    cancleBtn.style.display = 'none'
+}
+
+let upload = () => {
+    addBtn.style.display = 'none'
+    uploadBtn.style.display = 'inline'
+    cancleBtn.style.display = 'inline'
+}
+
 let fileUpload = () => {
     let formData = new FormData();
     formData.append("uploadedFile", imagefile.files[0]);
@@ -68,12 +84,16 @@ let fileUpload = () => {
             }
         })
         .then((res) => {
-            console.log(res.data.data);
+            // console.log(res.data.data);
             renderItems()
         })
         .catch((err) => {
             console.log(err);
         })
+    addBtn.style.display = 'inline'
+    uploadBtn.style.display = 'none'
+    cancleBtn.style.display = 'none'
+
 }
 
 let showItems = () => {
@@ -116,6 +136,7 @@ let formSetting = (index) => {
             addItem(index);
             return false
         }
+        cancleBtn.style.display = 'inline'
     } else {
         addBtn.innerHTML = 'Add'
         addBtn.setAttribute('class', 'btn btn-primary btn-rounded ms-2')
@@ -123,6 +144,8 @@ let formSetting = (index) => {
             addItem();
             return false
         }
+        // cancleBtn.style.display = 'none'
+        // item.value = ''
     }
 }
 
@@ -145,11 +168,12 @@ let editItem = (index) => {
     todoId = todos[index]._id
     item.focus()
     formSetting(index)
+
 }
 
 let dltItem = (index) => {
     // console.log(todos[index]);
-    if (Boolean(todos[index].text)) {
+    if (todos[index].text) {
         todoId = todos[index]._id
     } else {
         todoId = `${todos[index]._id} ${todos[index].file.fileId}`

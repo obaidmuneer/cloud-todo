@@ -23,3 +23,7 @@ body{
 .img-card{
     width: 20%;
 }
+
+#cancleBtn, #uploadBtn {
+    display: none;
+}
