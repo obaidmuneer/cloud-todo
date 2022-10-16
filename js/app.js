@@ -10,7 +10,7 @@ let result = document.querySelector('#result')
 let todos = {}
 let todoId;
 let api;
-if (window.location.protocol) {
+if (window.location.protocol === 'http:') {
     api = 'http://localhost:8080/'
 } else {
     api = 'https://faithful-erin-wig.cyclic.app/'
